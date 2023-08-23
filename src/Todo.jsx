@@ -6,12 +6,13 @@ const style ={
     text:`p-1 text-xl cursor-poiner`
 }
 
-const Todo = ({todo}) => {
+const Todo = ({todo,toggleCompleted}) => {
   return (
+    
     <li className={style.li}>
         <div className={style.row}>
-            <input type="checkbox" checked={todo.completed ? 'checked' : ''}/>
-            <p className={style.text}>{todo.text}</p>   
+            <input type="checkbox" onChange={toggleCompleted} checked={todo.completed ? 'checked' : ''}/>
+            <p className={style.text} onClick={toggleCompleted}>{todo.text}</p>   
         </div>
         <button> {<AiFillDelete/>} </button>    
     </li>

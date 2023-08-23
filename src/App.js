@@ -2,7 +2,7 @@ import React,{useEffect, useState} from "react";
 import {AiOutlinePlus} from 'react-icons/ai'
 import Todo from "./Todo";
 import {db} from './Firebase'
-import { QuerySnapshot, collection, onSnapshot,query } from "firebase/firestore";
+import {doc,  collection, onSnapshot,query, updateDoc } from "firebase/firestore";
 
 const style={
   bg:`bg-slate-500 w-screen h-screen`,
@@ -14,7 +14,13 @@ const style={
 }
 
 function App() {
-  const [todos,setTodos] =  useState(['Hello','Word'])
+  const [todos,setTodos] =  useState([])
+
+const toggleCompleted = async (todo) => {
+    await updateDoc(doc(db, 'todos', todo.id), {
+      completed: !todo.completed,
+    });
+  };
 
   useEffect(() => {
    const q = query(collection(db,'todos'))
@@ -25,6 +31,7 @@ function App() {
     });
     setTodos(todoArr)
    })
+   return ()=> unsubscribe
   }, [])
   
 
@@ -37,9 +44,11 @@ function App() {
             <button className={style.btn}> <AiOutlinePlus size={30}> </AiOutlinePlus> </button>
           </form>
           <ul>
-            {todos.map((todo,index)=>(
-            <Todo key={index} todo={todo}/>
-          ))}          
+            {todos.map((todo,index)=>{
+              console.log(todo.id)
+              return(
+            <Todo key={index} todo={todo} toggleCompleted={toggleCompleted}/>
+          )})}          
           </ul>
           
       </div>
