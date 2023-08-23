@@ -15,19 +15,19 @@ const style={
 
 function App() {
   const [todos,setTodos] =  useState([])
-
+//updating firebase when clicking checkbox not working why???? ith enth myr , collection nte id specify chyth kodukkumbo work aavind
 const toggleCompleted = async (todo) => {
     await updateDoc(doc(db, 'todos', todo.id), {
       completed: !todo.completed,
     });
   };
-
+//reading from firebase
   useEffect(() => {
    const q = query(collection(db,'todos'))
    const unsubscribe = onSnapshot(q,(querySnapshot)=>{
     let todoArr = []
     querySnapshot.forEach((doc)=>{
-      todoArr.push({...doc.data(), id:doc.id})
+      todoArr.push({...doc.data(), id:doc.id}) // todos array'kk id koodi add aakkanu... ee id aanu update il use akkane
     });
     setTodos(todoArr)
    })
