@@ -1,23 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{useEffect, useState} from "react";
+import {AiOutlinePlus} from 'react-icons/ai'
+import Todo from "./Todo";
+import {db} from './Firebase'
+import { QuerySnapshot, collection, onSnapshot,query } from "firebase/firestore";
+
+const style={
+  bg:`bg-slate-500 w-screen h-screen`,
+  container:`bg-slate-100 max-w-[500px] w-full m-auto rounded-md shadow-xl p-3`,
+  heading:`text-3xl font-bold text-center p-2`,
+  form:`flex justify-between`,
+  input:`w-full boder p-1 text-xl`,
+  btn:`ml-1 border p-2 bg-green-500 text-slate-100`
+}
 
 function App() {
+  const [todos,setTodos] =  useState(['Hello','Word'])
+
+  useEffect(() => {
+   const q = query(collection(db,'todos'))
+   const unsubscribe = onSnapshot(q,(querySnapshot)=>{
+    let todoArr = []
+    querySnapshot.forEach((doc)=>{
+      todoArr.push({...doc.data(), id:doc.id})
+    });
+    setTodos(todoArr)
+   })
+  }, [])
+  
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={style.bg}>
+      <div className={style.container}>
+          <h2 className={style.heading}>My TODOS</h2>
+          <form className={style.form}>
+            <input type="text" className={style.input} placeholder="Enter the todo" />
+            <button className={style.btn}> <AiOutlinePlus size={30}> </AiOutlinePlus> </button>
+          </form>
+          <ul>
+            {todos.map((todo,index)=>(
+            <Todo key={index} todo={todo}/>
+          ))}          
+          </ul>
+          
+      </div>
     </div>
   );
 }
