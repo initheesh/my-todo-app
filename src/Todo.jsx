@@ -10,7 +10,7 @@ const Todo = ({todo}) => {
   return (
     <li className={style.li}>
         <div className={style.row}>
-            <input type="checkbox" />
+            <input type="checkbox" checked={todo.completed ? 'checked' : ''}/>
             <p className={style.text}>{todo.text}</p>   
         </div>
         <button> {<AiFillDelete/>} </button>    
