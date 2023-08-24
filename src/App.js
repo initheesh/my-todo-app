@@ -2,13 +2,13 @@ import React,{useEffect, useState} from "react";
 import {AiOutlinePlus} from 'react-icons/ai'
 import Todo from "./Todo";
 import {db} from './Firebase'
-import {doc,  collection, onSnapshot,query, updateDoc, addDoc } from "firebase/firestore";
+import {doc,  collection, onSnapshot,query, updateDoc, addDoc, deleteDoc } from "firebase/firestore";
 
 const style={
   bg:`bg-slate-500 w-screen h-screen`,
   container:`bg-slate-100 max-w-[500px] w-full m-auto rounded-md shadow-xl p-3`,
   heading:`text-3xl font-bold text-center p-2`,
-  form:`flex justify-between`,
+  form:`flex justify-between mb-6`,
   input:`w-full boder p-1 text-xl`,
   btn:`ml-1 border p-2 bg-green-500 text-slate-100`
 }
@@ -22,6 +22,11 @@ const toggleCompleted = async (todo) => {
       completed: !todo.completed,
     });
   };
+  
+  //deleting todo
+  const deleteTodo = async(todo)=>{
+    await deleteDoc(doc(db,'todos',todo.id))
+  }
 
   //creating to do
   const createTodo = async(e)=>{
@@ -63,7 +68,7 @@ const toggleCompleted = async (todo) => {
             {todos.map((todo,index)=>{
               console.log(todo.id)
               return(
-            <Todo key={index} todo={todo} toggleCompleted={toggleCompleted}/>
+            <Todo key={index} todo={todo} toggleCompleted={toggleCompleted} deleteTodo={deleteTodo}/>
           )})}          
           </ul>
           
