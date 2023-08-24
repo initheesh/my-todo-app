@@ -6,7 +6,7 @@ import {doc,  collection, onSnapshot,query, updateDoc, addDoc, deleteDoc } from 
 
 const style={
   bg:`bg-slate-500 w-screen h-screen`,
-  container:`bg-slate-100 max-w-[500px] w-full m-auto rounded-md shadow-xl p-3`,
+  container:`bg-slate-100 max-w-[500px] w-full m-auto rounded-md shadow-xl p-3 `,
   heading:`text-3xl font-bold text-center p-2`,
   form:`flex justify-between mb-6`,
   input:`w-full boder p-1 text-xl`,
