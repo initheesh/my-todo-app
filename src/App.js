@@ -2,7 +2,7 @@ import React,{useEffect, useState} from "react";
 import {AiOutlinePlus} from 'react-icons/ai'
 import Todo from "./Todo";
 import {db} from './Firebase'
-import {doc,  collection, onSnapshot,query, updateDoc } from "firebase/firestore";
+import {doc,  collection, onSnapshot,query, updateDoc, addDoc } from "firebase/firestore";
 
 const style={
   bg:`bg-slate-500 w-screen h-screen`,
@@ -15,23 +15,39 @@ const style={
 
 function App() {
   const [todos,setTodos] =  useState([])
-//updating firebase when clicking checkbox not working why???? ith enth myr , collection nte id specify chyth kodukkumbo work aavind
+  const [input,setInput] = useState('')
+//updating todo
 const toggleCompleted = async (todo) => {
     await updateDoc(doc(db, 'todos', todo.id), {
       completed: !todo.completed,
     });
   };
-//reading from firebase
+
+  //creating to do
+  const createTodo = async(e)=>{
+    e.preventDefault(e)
+    if(input===''){
+      alert("Empty String")
+      return
+    }
+    await addDoc(collection(db,'todos'),{
+      text:input,
+      completed:false
+    })
+    setInput('')
+  }
+
+  //reading todos from firebase
   useEffect(() => {
    const q = query(collection(db,'todos'))
    const unsubscribe = onSnapshot(q,(querySnapshot)=>{
     let todoArr = []
     querySnapshot.forEach((doc)=>{
-      todoArr.push({...doc.data(), id:doc.id}) // todos array'kk id koodi add aakkanu... ee id aanu update il use akkane
+      todoArr.push({...doc.data(), id:doc.id}) 
     });
     setTodos(todoArr)
    })
-   return ()=> unsubscribe
+   return ()=> unsubscribe()
   }, [])
   
 
@@ -39,8 +55,8 @@ const toggleCompleted = async (todo) => {
     <div className={style.bg}>
       <div className={style.container}>
           <h2 className={style.heading}>My TODOS</h2>
-          <form className={style.form}>
-            <input type="text" className={style.input} placeholder="Enter the todo" />
+          <form className={style.form} onSubmit={createTodo}>
+            <input type="text" className={style.input} placeholder="Enter the todo" value={input} onChange={(e)=>setInput(e.target.value)} />
             <button className={style.btn}> <AiOutlinePlus size={30}> </AiOutlinePlus> </button>
           </form>
           <ul>
