@@ -5,12 +5,13 @@ import {db} from './Firebase'
 import {doc,  collection, onSnapshot,query, updateDoc, addDoc, deleteDoc } from "firebase/firestore";
 
 const style={
-  bg:`bg-slate-500 w-screen h-screen`,
-  container:`bg-slate-100 max-w-[500px] w-full m-auto rounded-md shadow-xl p-3 `,
+  bg:`bg-gradient-to-b from-green-600 via-lime-600 to-green-500 w-screen h-screen flex`,
+  container:` bg-white p-5 rounded-xl bg-opacity-60 backdrop-filter backdrop-blur-lg
+" max-w-[500px] w-full m-auto rounded-md shadow-xl p-3 `,
   heading:`text-3xl font-bold text-center p-2`,
   form:`flex justify-between mb-6`,
   input:`w-full boder p-1 text-xl`,
-  btn:`ml-1 border p-2 bg-green-500 text-slate-100`
+  btn:`ml-1 border p-2 bg-green-400 text-slate-100`
 }
 
 function App() {

@@ -1,8 +1,8 @@
 import React from 'react'
 import {AiFillDelete} from 'react-icons/ai'
 const style ={
-    li:`flex justify-between p-2 my-4 border`,
-    row:`flex`,
+    li:`flex justify-between p-2 my-4 border-2 rounded-md bg-green-100 hover:bg-green-400`,
+    row:`flex `,
     text:`p-1 text-lg cursor-pointer`
 }
 
