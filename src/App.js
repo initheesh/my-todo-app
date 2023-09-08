@@ -3,6 +3,8 @@ import {AiOutlinePlus} from 'react-icons/ai'
 import Todo from "./Todo";
 import {db} from './Firebase'
 import {doc,  collection, onSnapshot,query, updateDoc, addDoc, deleteDoc } from "firebase/firestore";
+import { Route, Routes } from "react-router-dom";
+import LoginPage from "./LoginPage";
 
 const style={
   bg:`bg-gradient-to-b from-green-600 via-lime-600 to-green-500 w-screen h-screen flex`,
@@ -67,7 +69,7 @@ const toggleCompleted = async (todo) => {
           </form>
           <ul>
             {todos.map((todo,index)=>{
-              console.log(todo.id)
+              
               return(
             <Todo key={index} todo={todo} toggleCompleted={toggleCompleted} deleteTodo={deleteTodo}/>
           )})}          
