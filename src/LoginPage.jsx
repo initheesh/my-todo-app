@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect} from 'react'
 import GoogleButton from 'react-google-button'
-import {signInWithPopup} from 'firebase/auth'
-import {auth,provider} from './Firebase'
-import { useNavigate } from 'react-router-dom';
+import { UserAuth } from './AuthContext'
+import {useNavigate} from 'react-router-dom'
+
 
 
 const style = {
@@ -11,18 +11,30 @@ const style = {
 
 
 const LoginPage = () => {
-  
-  const loginPress = () =>{
-  signInWithPopup(auth,provider).then((result)=>{
-    navigate('/')
-  }).catch((error)=>{console.log(error)})
-}
+
+
   const navigate = useNavigate()
+  const {googleSignIn,user} = UserAuth()
+  const handleGoogleSignIn = async ()=>{
+    try{
+      await googleSignIn()
+    }
+    catch(error){
+      console.log("login error " + error)
+    }
+  }
+
+  useEffect(() => {
+    if (user != null) {
+      navigate('/');
+    }
+  }, [user,navigate]);
+
+
   return (
-    <div className={style.login}>
-      <GoogleButton onClick={loginPress}/>
-      
-    </div>
+    <div className={style.login} >
+      <GoogleButton onClick={handleGoogleSignIn}/>
+    </div> 
   )
 }
 
